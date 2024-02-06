@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# BikeTrack Telemetry
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+BikeTrack Telemetry is a web application built to track telemetry data from bicycles. It provides a platform for cyclists to monitor and analyze their rides, including metrics such as speed, distance, and route information.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+To run this project locally, you'll need to have Node.js, React, and MongoDB installed on your machine.
 
-### `npm start`
+### Backend Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Navigate to the `backend` directory.
+2. Install dependencies using `npm install`.
+3. Start the server using `npm start`.
+4. The server should now be running on `http://localhost:5000`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Frontend Setup
 
-### `npm test`
+1. Navigate to the `frontend` directory.
+2. Install dependencies using `npm install`.
+3. Start the development server using `npm start`.
+4. The frontend should now be accessible at `http://localhost:3000`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies Used
 
-### `npm run build`
+- Node.js
+- React
+- MongoDB
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Track and monitor telemetry data from bicycle rides.
+- Analyze ride metrics such as speed, distance, and route information.
+- User-friendly interface for easy navigation and data visualization.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Screenshots
 
-### `npm run eject`
+![Screenshot 1](screenshots/screenshot1.png)
+![Screenshot 2](screenshots/screenshot2.png)
+![Screenshot 3](screenshots/screenshot3.png)
+![Screenshot 4](screenshots/screenshot4.png)
+![Screenshot 5](screenshots/screenshot5.png)
+![Screenshot 6](screenshots/screenshot6.png)
+![Screenshot 7](screenshots/screenshot7.png)
+![Screenshot 8](screenshots/screenshot8.png)
+v
+<!-- You can add more screenshots here -->
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To install this project, follow these steps:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository.
+2. Install backend dependencies using `npm install` in the `backend` directory.
+3. Install frontend dependencies using `npm install` in the `frontend` directory.
+4. Start the backend server using `npm start`.
+5. Start the frontend development server using `npm start`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Contributing
 
-## Learn More
+Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [MIT License](LICENSE).

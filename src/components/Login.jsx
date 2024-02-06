@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { userLogin } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/Login.css';
 
 
 const Login = () => {
@@ -41,12 +42,16 @@ const Login = () => {
  
 
   return (
-    <div>
-      <h3><CiLogin/> Login</h3>
+    <div className='login'>
+      <h3 className='login-title'><CiLogin/> Login</h3>
       {/* <p>{user.username}</p> */}
+
+      <div className='login-inputs'>
       <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={() => handleLogin()}>Login</button>
+      </div>
+
+      <button className='login-button' onClick={() => handleLogin()}>Login</button>
       {error && <p className='error'>{error}</p>}
     </div>
   );
