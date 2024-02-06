@@ -1,0 +1,95 @@
+.user-list {
+    /* max-width: 800px; */
+    /* margin: 0 auto; */
+    list-style: none;
+    padding: 0;
+    
+  }
+
+
+.user-list a {
+    text-decoration: none;
+    color: #fff;
+}
+ 
+  
+  .error {
+    color: red;
+  }
+  .user-card-highlight{
+    background-color: #007BFF;
+  }
+  .user-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  
+  .user-card {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    gap: 16px;
+    /* width: px; */
+    text-align: center;
+  }
+  .user-name{
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .user-card img {
+    max-width: 100%;
+    border-radius: 50%;
+    margin-bottom: 8px;
+  }
+  .user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+  }
+  .user-card h4 {
+    margin: 0;
+    /* color: #333; */
+  }
+  
+  .user-card p {
+    /* color: #666; */
+    margin: 8px 0;
+  }
+  
+  .user-card a {
+    text-decoration: none;
+    color: #FFF;
+    font-weight: bold;
+    display: block;
+    margin-top: 8px;
+  }
+  
+  .user-card a:hover {
+    text-decoration: underline;
+  }
+  .user-image{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  

@@ -1,0 +1,176 @@
+/* EventDetails.css */
+
+.event-details-container {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    color: #fff;
+  }
+  
+  .event-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 0;
+    /* border-radius: 8px; */
+    padding: 20px;
+  }
+  
+  .event-info {
+    flex: 1;
+    min-width: 25%;
+    padding: 10px;
+    
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .event-title h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .event-description,
+  .event-date,
+  .event-modal,
+  .event-organizer {
+    margin-top: 10px;
+  }
+  
+  .event-description p,
+  .event-date p,
+  .event-modal p,
+  .event-organizer p {
+    margin: 0;
+  }
+  
+  .event-image img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .event-attendees,
+  .event-espects {
+    margin-top: 20px;
+  }
+  
+  .event-attendees ul,
+  .event-espects ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .event-attendees li,
+  .event-espects li {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .cancel-participant {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .cancel-participant:hover {
+    background-color: #d32f2f;
+  }
+
+  .cancel-spectator{
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .cancel-spectator:hover {
+    background-color: #d32f2f;
+  }
+
+  .register-spectator{
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .register-spectator:hover {
+    background-color: #3e8e41;
+  }
+
+  .register-participant{
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .register-participant:hover {
+    background-color: #3e8e41;
+  }
+
+  .back-button{
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .back-button:hover {
+    background-color: #3e8e41;
+  }
+
+.event-actions{
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  /* width: 100%; */
+  /* padding: 10px; */
+  /* background-color: #d32f2f; */
+  justify-content: center;
+  align-items: end;
+  gap: 10px;
+}
+
+.edit-button{
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.edit-button:hover {
+  background-color: #3e8e41;
+}
