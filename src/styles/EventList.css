@@ -1,3 +1,17 @@
+.event-card-container{
+  display: flex;
+  flex-wrap: wrap;
+  /* background-color: aquamarine; */
+  /* flex-grow: 1; */
+  flex-direction: row;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  /* padding: 20px; */
+  max-height: 83vh;
+  /* max-width: 80vw; */
+  overflow-y: scroll;
+}
+
 .event-list ul {
     
     list-style: none;
@@ -61,9 +75,133 @@
     /* padding: 5px 10px; */
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
     /* margin-top: 10px; */
   }
+.event-card{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  /* gap: 10px; */
+  
+  /* text-align: center; */
+}
+
+
+.event-image-container {
+  position: relative;
+}
+
+.event-image{
+  transition: all 0.2s ease-in-out;
+  max-width: 400px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  /* filter: grayscale(100%); */
+  
+ 
+  
+}
+
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(30deg, rgb(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+}
+
+
+.event-image:hover{
+  transition: all 0.2s ease-in-out;
+  max-width: 400px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  /* filter: none; */
+  /* filter: blur(2px); */
+  
+  
+}
+.event-link{
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  text-shadow: #000000 5px 5px 1px;
+  border-radius: 8px;
+  /* z-index: 1; */
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  /* background-color: #d32f2f; */
+}
+
 
   .delete-button:hover {
     background-color: #d32f2f;
+  }
+
+.event-options{
+  display: flex;
+  flex-direction: column;
+  /* gap: 10px; */
+}
+  .event-table a{
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .event-table a:hover{
+    text-decoration: none;
+    color: inherit;
+  }
+   
+  .event-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+  }
+  .event-participants{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .event-list-footer{
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    /* background-color: #3e3c3c; */
+  }
+
+  .event-list-title{
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
   }

@@ -110,3 +110,21 @@
   justify-content: center;
   gap: 10px;
 }
+
+.modal-content{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-columns {
+  display: flex;
+}
+
+.column {
+  flex: 1;
+}
+
+.column:first-child {
+  margin-right: 20px; /* Espaço entre as colunas */
+}

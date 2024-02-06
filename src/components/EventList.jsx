@@ -4,22 +4,24 @@ import axios from 'axios';
 import CreateEventModal from './CreateEventModal';
 import { Modal, Button } from 'react-bootstrap';
 import '../styles/EventList.css';
+import { HiOutlineUsers } from "react-icons/hi2";
+import { MdDirectionsBike } from "react-icons/md";
 
 const ConfirmDeleteModal = ({ show, handleClose, handleConfirmDelete }) => {
   return (
-    <Modal show={show} onHide={handleClose} style={{ color: '#721c24' }}>
-      <Modal.Header closeButton style={{ backgroundColor: '#f8d7da', color: '#721c24' }}>
+    <Modal show={show} onHide={handleClose} style={{ backgroundColor: '#1a1a1a',border: '1px solid #6c757d'}}>
+      
         <Modal.Title style={{ fontWeight: 'bold' }}>Confirmar Exclusão</Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={{ color: '#721c24' }}>
+
+      <Modal.Body style={{ color: '#FFF',textAlign: 'center',fontWeight: 'bold',margin: '30px' }}>
         Tem certeza que deseja deletar esse evento?
       </Modal.Body>
-      <Modal.Footer style={{ justifyContent: 'space-between', borderTop: '0' }}>
-        <Button variant="secondary" onClick={handleClose} style={{ backgroundColor: '#6c757d', borderColor: '#6c757d' }}>
+      <Modal.Footer style={{ justifyContent: 'space-around',gap: '10px',display: 'flex', flexDirection: 'row' }}>
+        <Button  onClick={handleClose} style={{ backgroundColor: '#6c757d', borderColor: '#6c757d',fontWeight: 'bold' }}>
           Cancelar
         </Button>
-        <Button variant="danger" onClick={handleConfirmDelete}>
-          Confirmar
+        <Button  onClick={handleConfirmDelete} style={{ backgroundColor: '#d32f2f', borderColor: '#d32f2f',fontWeight: 'bold' }}>
+          Excluir
         </Button>
       </Modal.Footer>
     </Modal>
@@ -134,40 +136,45 @@ const EventList = () => {
   return (
   <div className='event-list-container'>
     <div className='event-list'>
-     {localStorage.getItem('user') && <h3>Lista de eventos</h3>}
+     {localStorage.getItem('user') && <h3 className='event-list-title'>Eventos</h3>}
 
       {error && <p className='error'>{error}</p>}
       
       {!localStorage.getItem('user') && <p className='error'>Faça o login para ver os eventos</p>}
       
-      {localStorage.getItem('user') && <table className="event-table">
-        <tr>
-          <th>Nome</th>
-          <th>Data</th>
-          <th>Descrição</th>
-          <th>Espectadores</th>
-          <th>Participantes</th>
-          <th>Organizador</th>
-          <th>Opções</th>
-          
-        </tr>
+      <div className='event-card-container'>
+      {localStorage.getItem('user') && 
+      
+      
+      events.map((event) => (
+            <div key={event._id} className='event-card'>
+              
+              {event.image && (<Link className='event-image-container' to={`/events/${event._id}`}>
+                <img className='event-image' src={event.image} alt={JSON.parse(event.organizer).username}/>
+                <div className='gradient-overlay'></div>
+                <div className="event-link" >{event.name}</div>
+              </Link>)}
 
-        {events.map((event) => (
-          <tr key={event._id}>
-            <td>{event.name}</td>
-            <td>{event.date}</td>
-            <td>{event.description}</td>
-            <td>{event.espects && event.espects.length}</td>
-            <td>{event.attendees && event.attendees.length}</td>
-            <td>{event.organizer && JSON.parse(event.organizer).username}</td>
-            <td>
-              <Link to={`/events/${event._id}`}>Detalhes</Link>
+              <div className="event-info">
+              <span>{event.date}</span>
+              <span>{event.description}</span>
+              <div className='event-participants'> 
+              <span><HiOutlineUsers /> {event.espects && event.espects.length}</span>
+                <span><MdDirectionsBike /> {event.attendees && event.attendees.length}</span>
+              </div>
+              </div>
+              
               {user.isAdmin && <button className="delete-button" onClick={() => handleShowDeleteModal(event._id)}>Deletar</button>}
-            </td>
-           
-          </tr>
-        ))}
-      </table>}
+                
+                
+              
+              {/* <button ><Link className="event-details" to={`/events/${event._id}`}>Detalhes</Link> </button> */}
+              
+                </div>
+            
+          ))
+      }
+      </div>
 
       {/* Modal de Confirmação de Exclusão */}
       <ConfirmDeleteModal
@@ -183,7 +190,11 @@ const EventList = () => {
         onCreateEvent={(e)=>handleCreateEvent(e)}
       />}
     </div>
+
+    <div className='event-list-footer'>
     {localStorage.getItem('user') && user.isAdmin && <button onClick={handleOpenCreateEventModal}>Criar Novo Evento</button> }
+
+    </div>
   </div>
     );
 };

@@ -14,7 +14,7 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
   const [eventModal, setEventModal] = useState('');
   const [eventAttendees, setEventAttendees] = useState([]);
   const [eventOrganizer, setEventOrganizer] = useState({});
-  const [eventImage, setEventImage] = useState('');
+  const [eventImage, setEventImage] = useState('https://img.freepik.com/vetores-premium/um-grupo-de-ciclistas-em-uma-estrada-de-montanha_40382-397.jpg');
   const [eventEspects, setEventEspects] = useState([]);
   const [user, setUser] = useState('');
   const handleCreateEvent = () => {
@@ -74,8 +74,9 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
       className='modal'
       overlayClassName='overlay'
     >
+      <div className='modal-content'>
+        
       <h2 className='modal-title'>Criar Novo Evento</h2>
-
       <label htmlFor='eventName'>Nome do Evento: <input
         type='text'
         id='eventName'
@@ -84,36 +85,18 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
         
         onChange={(e) => setEventName(e.target.value)}
       /></label><br/>
+      <div className='form-columns'>
+      <div className='column'>
 
-<label className='event-image-create-label' htmlFor='eventImage'>Imagem:
+<label htmlFor='eventDate'>Data:
       <input
-        type='text'
-        id='eventImage'
-        value={eventImage}
-        placeholder='URL da imagem'
-        onChange={(e) => setEventImage(e.target.value)}
-      />
-     <img className='event-image-create' src={eventImage} alt='Imagem do Evento' />
-      </label><br/>
-      
-
-      <label htmlFor='eventDescription'>Descrição:
-      <textarea
-        id='eventDescription'
-        value={eventDescription}
-        placeholder='Descricão do Evento'
-        onChange={(e) => setEventDescription(e.target.value)}
+        type='date'
+        id='eventDate'
+        value={eventDate}
+        onChange={(e) => setEventDate(e.target.value)}
       /></label><br/>
 
-      <label htmlFor='eventLocation'>Localização:
-      <select id='eventLocation' value={eventLocation} onChange={(e) => setEventLocation(e.target.value)}>
-        <option value=''>Selecione</option>
-        <option value='Recife'>Recife</option>
-        <option value='Online'>Online</option>
-      </select>
-      </label><br/>
-
-      <label htmlFor='eventCircuit'>Circuito:
+<label htmlFor='eventCircuit'>Circuito:
       <select id='eventCircuit' value={eventCircuit} onChange={(e) => setEventCircuit(e.target.value)}>
         <option value=''>Selecione</option>
         <option value='Circuito 1'>Circuito 1</option>
@@ -122,13 +105,6 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
       </select>
       </label><br/>
 
-      <label htmlFor='eventDate'>Data:
-      <input
-        type='date'
-        id='eventDate'
-        value={eventDate}
-        onChange={(e) => setEventDate(e.target.value)}
-      /></label><br/>
 
       <label htmlFor='eventModal'>Modalidade:
       <select id='eventModal' value={eventModal} onChange={(e) => setEventModal(e.target.value)}>
@@ -139,16 +115,49 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
       </select>
       </label><br/>
 
-      {/* <label htmlFor='eventAttendees'>Participantes:
+      <label htmlFor='eventLocation'>Localização:
+      <select id='eventLocation' value={eventLocation} onChange={(e) => setEventLocation(e.target.value)}>
+        <option value=''>Selecione</option>
+        <option value='Recife'>Recife</option>
+        <option value='Online'>Online</option>
+      </select>
+      </label><br/>
+
+      
+      </div>
+        
+      <div className='column'> 
+      
+
+      <label className='event-image-create-label' htmlFor='eventImage'>Imagem:
       <input
         type='text'
-        id='eventAttendees'
-        value={eventAttendees}
-        onChange={(e) => setEventAttendees(e.target.value)}
-      /></label><br/> */}
+        id='eventImage'
+        value={eventImage}
+        placeholder='URL da imagem'
+        onChange={(e) => setEventImage(e.target.value)}
+      />
+     <img className='event-image-create' src={eventImage} alt='Imagem do Evento' />
+      </label><br/>
+      
+      
+
+      
 
      
 
+      
+</div>
+
+
+      </div>
+      <label htmlFor='eventDescription'>Descrição:
+      <textarea
+        id='eventDescription'
+        value={eventDescription}
+        placeholder='Descricão do Evento'
+        onChange={(e) => setEventDescription(e.target.value)}
+      /></label><br/>
       {user && <><label htmlFor='eventOrganizer'>Organizador:
       <select id='eventOrganizer' value={eventOrganizer} onChange={(e) => setEventOrganizer(e.target.value)}>
         <option value=''>Selecione</option>
@@ -156,19 +165,11 @@ const CreateEventModal = ({ isOpen, onRequestClose, onCreateEvent }) => {
         
       </select> 
       </label><br/></>}
-
-      
-
-      {/* <label htmlFor='eventEspects'>Espectadores:
-      <input
-        type='text'
-        id='eventEspects'
-        value={eventEspects}
-        onChange={(e) => setEventEspects(e.target.value)}
-      /></label><br/> */}
      <div className='actions'>
       <button className='cancel' onClick={()=>onRequestClose()}>Cancelar</button>
       <button className='create' onClick={()=>handleCreateEvent()}>Criar Evento</button>
+
+     </div>
 
      </div>
 
