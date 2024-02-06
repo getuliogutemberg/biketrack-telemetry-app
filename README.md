@@ -42,7 +42,7 @@ To run this project locally, you'll need to have Node.js, React, and MongoDB ins
 ![Screenshot 6](screenshots/screenshot6.png)
 ![Screenshot 7](screenshots/screenshot7.png)
 ![Screenshot 8](screenshots/screenshot8.png)
-v
+
 <!-- You can add more screenshots here -->
 
 ## Installation
