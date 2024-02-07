@@ -5,11 +5,12 @@ import Map from './Map';
 import '../styles/EventDetails.css'; // Adicione um arquivo de estilo para personalizar ainda mais
 import io from 'socket.io-client'; 
 import EditEventModal from './EditEventModal';
+import { Link } from 'react-router-dom';
 
 const socket = io('http://localhost:5000');
 const EventDetails = () => {
   const { id } = useParams();
-  
+  const user = JSON.parse(localStorage.getItem('user'));
   const [event, setEvent] = useState({});
   const [coordinates, setCoordinates] = useState([0, 0]);
   const isParticipantRegistered = event.attendees && event.attendees.some(existingUser => existingUser.username === JSON.parse(localStorage.getItem('user')).username);
@@ -324,14 +325,31 @@ const EventDetails = () => {
     }));
   };
 
-
+ const handleLogout = () => {
+  localStorage.removeItem('user');
+  
+ }
 
 
   return (
     <div className='event-details-container'>
+      <div className='lobby-header'>
+      
+      <Link className='lobby-title'  to={'/'}>BikeTrack</Link>
+      <div className='lobby-menu'>
+      {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
+      {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
+      
+      {user && <Link className="start-button" to="/" onClick={() => handleLogout()}><span>Sair</span></Link>}
+      </div>
+      </div>
+
+      <div className="event-details-container">
+
       <div className='event-map'>
         <Map participantes={event.attendees} espectadores={event.espects} circuito={event.circuito} handleUpdateLocation={handleUpdateLocation}/>
       </div>
+
       <div className='event-info'>
         <div className='event-title'>
           <h1>{event.name}</h1>
@@ -340,6 +358,7 @@ const EventDetails = () => {
         <div className='event-image'>
           <img src={event.image} alt={event.name} />
         </div>
+        <div className='event-details-info'>
         <div className='event-description'>
           <p>{event.description}</p>
         </div>
@@ -385,7 +404,7 @@ const EventDetails = () => {
         </div>
         {/* <button onClick={()=>handleUpdateLocation()}>Atualizar Localização</button> */}
 
-        
+        </div>
        
         
         
@@ -397,8 +416,8 @@ const EventDetails = () => {
       {isEventOrganizer && <button className='edit-button' onClick={() => handleEditEvent()}>Editar Evento</button>}
       </div>
       </div>
-       {/* Modal para editar o evento */}
-       <EditEventModal onRequestClose={handleCloseEditModal} isOpen={isEditModalOpen} onEditEvent={modifyEvent} event={event}/>
+      <EditEventModal onRequestClose={handleCloseEditModal} isOpen={isEditModalOpen} onEditEvent={modifyEvent} event={event}/>
+      </div>
        
        
     </div>

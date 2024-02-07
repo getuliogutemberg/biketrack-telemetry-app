@@ -55,7 +55,7 @@ const Lobby = () => {
     <div className='lobby'>
       <div className='lobby-header'>
       
-        <h1 className='lobby-title'>BikeTrack</h1>
+        <Link className='lobby-title'  to={'/'}>BikeTrack</Link>
         <div className='lobby-menu'>
         {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
         {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}

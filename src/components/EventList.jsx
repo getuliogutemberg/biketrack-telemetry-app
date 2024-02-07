@@ -143,7 +143,7 @@ const EventList = () => {
   <div className='events-list'>
     <div className='events-header'>
       
-      <h1 className='lobby-title'>BikeTrack</h1>
+    <Link className='lobby-title'  to={'/'}>BikeTrack</Link>
       <div className='lobby-menu'>
       {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
       {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
@@ -167,13 +167,13 @@ const EventList = () => {
       events.map((event) => (
             <div key={event._id} className='event-card'>
               
-              {event.image && (<Link className='event-image-container' to={`/events/${event._id}`}>
-                <img className='event-image' src={event.image} alt={JSON.parse(event.organizer).username}/>
+              {event.image && (<Link className='event-card-image-container' to={`/events/${event._id}`}>
+                <img className='event-card-image' src={event.image} alt={JSON.parse(event.organizer).username}/>
                 <div className='gradient-overlay'></div>
                 <div className="event-link" >{event.name}</div>
               </Link>)}
 
-              <div className="event-info">
+              <div className="event-card-info">
               <span>{event.date}</span>
               <span>{event.description}</span>
               <div className='event-participants'> 

@@ -1,33 +1,50 @@
 /* EventDetails.css */
 
-.event-details-container {
-    display: flex;
-    width: 100%;
-    flex-grow: 1;
-    margin: 0 auto;
-    background-color: #1a1a1a;
-    color: #fff;
-  }
+
   
   .event-map {
+    z-index: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    z-index: 0;
+    height: calc(100vh - 110px);
+    /* background-color: #fff; */
+    /* flex-grow: 1; */
     /* border-radius: 8px; */
     padding: 20px;
+    /* transform: translateY(-110px); */
   }
   
-  .event-info {
-    flex: 1;
-    min-width: 25%;
-    padding: 10px;
+ .event-info{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   /* justify-content: space-between; */
+    /* flex-grow: 1; */
+    /* background-color: #d32f2f; */
+    height: calc(100vh - 150px);
+    gap: 10px;
+    margin: 20px;
+    padding: 0;
     
-    display: flex;
-    flex-direction: column;
-  }
+ }
+ .event-details-info{
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
+  height:45vh;
+  width: 100%;
+  
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+ }
   
   .event-title {
     display: flex;
@@ -53,11 +70,17 @@
   .event-organizer p {
     margin: 0;
   }
-  
+  .event-image{
+    /* width: 100%; */
+    /* height: auto; */
+    /* margin-top: 20px; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+  }
   .event-image img {
     width: 100%;
-    height: auto;
-    margin-top: 20px;
+    /* height: auto; */
+    /* margin-top: 20px; */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -173,4 +196,18 @@
 
 .edit-button:hover {
   background-color: #3e8e41;
+}
+
+.event-details-container{
+  display: flex;
+  width: 100%;
+  /* flex-grow: 1; */
+  background-color: #1a1a1a;
+  color: #fff;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 36px;
+  justify-content: start;
+  overflow: auto;
+  color: #fff;
 }
