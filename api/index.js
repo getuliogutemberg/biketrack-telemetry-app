@@ -157,7 +157,7 @@ app.post('/events', authenticateToken, async (req, res) => {
 app.put('/events/:id', authenticateToken, async (req, res) => {
   const event = req.body;
   const { id } = req.params;
-  console.log(event)
+  // console.log(event)
   try {
     const newEvent = await Event.updateOne({ _id: id }, event);
     res.status(201).json(newEvent);
@@ -265,7 +265,7 @@ app.post('/removeEspect/:id',authenticateToken, async (req, res) => {
       { new: true }
     );
 
-    console.log(updatedEvent);
+    // console.log(updatedEvent);
     res.json(updatedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -294,7 +294,7 @@ app.post('/removeParticipant/:id',authenticateToken, async (req, res) => {
       { new: true }
     );
 
-    console.log(updatedEvent);
+    // console.log(updatedEvent);
     res.json(updatedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
