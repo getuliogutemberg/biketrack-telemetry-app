@@ -176,15 +176,35 @@ app.delete('/events/:id', authenticateToken, async (req, res) => {
   }
 });
 
+app.delete('/users/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    res.json(deletedUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.post('/users', async (req, res) => {
   const user = req.body;
+  
   try {
+    // Verifique se já existe um usuário com o mesmo email
+    const existingUser = await User.findOne({ email: user.email });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'Este email já está sendo usado por outro usuário.' });
+    }
+
+    // Se não houver um usuário com o mesmo email, crie o novo usuário
     const newUser = await User.create(user);
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
   
 app.get('/users',authenticateToken, async (req, res) => {
 

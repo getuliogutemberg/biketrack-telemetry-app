@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Modal from 'react-modal';
 import '../styles/CreateEventModal.css';
 import { now } from 'mongoose';
 
 const CreateUserModal = ({ isOpen, onRequestClose, onCreateUser }) => {
 
-  
+  const [error , setError] = useState('');
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,12 +16,40 @@ const CreateUserModal = ({ isOpen, onRequestClose, onCreateUser }) => {
   const [userModal, setUserModal] = useState('');
   
   
-  const [userImage, setUserImage] = useState('');
+  const [userImage, setUserImage] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1b2uDoF7fcRwSuDuyEIve6-cwp4g1cvEF7SxwrdTTKRdWrIvsG2BjeSJeOrMi444iT0c&usqp=CAU');
   
-
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          setUserLocation([latitude, longitude]); // Define a localização como um array [latitude, longitude]
+        },
+        error => {
+          console.error('Erro ao obter a localização:', error);
+          setError('Erro ao obter a localização');
+          setTimeout(() => setError(''), 3000);
+        }
+      );
+    } else {
+      console.error('Geolocalização não suportada');
+      setError('Geolocalização não suportada');
+      setTimeout(() => setError(''), 3000);
+    }
+  };
   const handleCreateEvent = () => {
-    // Valide os dados, se necessário
-    onCreateUser({
+    // Valide os dados, se você quiser
+    if(userName !== '' && password !== '' && email !== '' && userLocation !== ''  && userModal !== '')
+    {
+      console.log(
+        userName,
+        password,
+        email,
+        userLocation,
+        userModal
+      )
+      onCreateUser({
         username: userName,
         password: password,
         email: email,
@@ -30,21 +58,39 @@ const CreateUserModal = ({ isOpen, onRequestClose, onCreateUser }) => {
         image: userImage,
         dateCreated: now,
         modal: userModal,   
+      });
+      setUserName('');
+      setEmail('');
+      setPassword('');
+      getUserLocation();
+      setUserImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1b2uDoF7fcRwSuDuyEIve6-cwp4g1cvEF7SxwrdTTKRdWrIvsG2BjeSJeOrMi444iT0c&usqp=CAU');
+      setUserModal('');
+     
+      // Feche o modal
       
-      // Adicione outros campos conforme necessário
-    });
+      return onRequestClose();
+    } else{
+      console.log(
+        userName,
+        password,
+        email,
+        userLocation,
+        userModal
+      )
+
+      setError('Preencha todos os campos')
+
+      return setTimeout(() => setError(''), 3000);
+    }
 
     // Limpe o estado do modal após a criação do evento
-    setUserName('');
-    setEmail('');
-    setPassword('');
-    setUserLocation('');
-    setUserImage('');
-    setUserModal('');
    
-    // Feche o modal
-    onRequestClose();
   };
+
+  useEffect(()=>{
+    
+    getUserLocation();
+  },[])
 
   return (
     <Modal
@@ -55,7 +101,6 @@ const CreateUserModal = ({ isOpen, onRequestClose, onCreateUser }) => {
       overlayClassName='overlay'
     >
       <h2 className='modal-title'>Criar Novo Usuario</h2>
-
       <label htmlFor='userName'>Nome: <input
         type='text'
         id='userName'
@@ -149,6 +194,7 @@ const CreateUserModal = ({ isOpen, onRequestClose, onCreateUser }) => {
       <button className='create' onClick={()=>handleCreateEvent()}>Criar Usuario</button>
 
      </div>
+     <span className='error'>{error}</span>
 
     </Modal>
   );

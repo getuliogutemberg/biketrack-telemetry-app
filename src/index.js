@@ -14,6 +14,8 @@ import EventList from './components/EventList';
 import EventDetails from './components/EventDetails';
 import Login from './components/Login';
 import UserList from './components/UserList';
+import Lobby from './components/Lobby';
+import UserDetails from './components/UserDetails';
 
 // import ErrorPage from "./error-page";
 
@@ -26,11 +28,13 @@ root.render(
      <Provider store={store}>
      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App children={<EventList />}/>} />
-          <Route path="/login" element={<App children={<Login />}/>} />
-          <Route path="/events" element={<App children={<EventList />}/>} />
-          <Route path="/events/:id" element={<App children={<EventDetails />}/>} />
-          <Route path="/users" element={<App children={<UserList />}/>} />
+          <Route path="/" element={<Lobby/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/events" element={<EventList />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/users/:id" element={<UserDetails />} />
+
 
         </Routes>   
      </BrowserRouter>

@@ -17,8 +17,13 @@
     color: red;
   }
   .user-card-highlight{
-    background-color: #007BFF;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
   }
+  /* .user-card-highlight:hover{
+    background-color: #3e8e41;
+  } */
   .user-cards-container {
     display: flex;
     flex-wrap: wrap;
@@ -29,27 +34,37 @@
     display: flex;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    gap: 16px;
-    /* width: px; */
+    width: 300px;
+    /* margin: 10px; */
+    padding: 10px;
     text-align: center;
+    justify-content: space-between;
+   
+  }
+  .user-card:hover{
+    background-color: #5b5c5d;
   }
   .user-name{
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
   }
   
   .user-card img {
-    max-width: 100%;
+    border: 1px solid #ccc;
+    /* width: 100px; */
+    /* height: 100px; */
+    object-fit: cover;
+    margin: auto;
+    /* max-width: 100%; */
     border-radius: 50%;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
   }
   .user-info{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: end;
+    /* background-color: #0056b3; */
   }
   .user-card h4 {
     margin: 0;
@@ -93,3 +108,116 @@
   }
 
   
+.create-user{
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+
+    cursor: pointer;
+    margin: 10px;
+    font-size: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    text-shadow: 5px 5px 1px #000;
+    display: flex;
+    /* border: 1px solid #ccc; */
+    border-radius: 8px;
+    width: 375px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    text-align: center;
+    
+}
+.create-user:hover{
+  background-color: #3e8e41;  
+}
+
+.error{
+  color: red;
+}
+
+.users-list{
+  display: flex;
+    
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: 100vh;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.users-header{
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  background-color: #000;
+  color: #fff;
+}
+
+.users-body{
+  width: 100vw;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 110px;
+  /* padding: 10px ; */
+  justify-content: start;
+  /* height: 100vh; */
+  /* background-color: #d32f2f; */
+  overflow: auto;
+  color: #fff;
+}
+
+.users-title {
+  display:flex;
+  justify-content: start;
+  width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  /* background-color: #007BFF; */
+  margin: 0;
+  margin-left: 20px;
+    padding: 10px;
+}
+
+.user{
+
+  text-decoration: none;
+  color: #fff;
+}
+
+.user-card-container{
+  display: flex;
+
+  flex-wrap: wrap;
+  margin: 10px ;
+  flex-direction: row;
+ 
+}
+.delete-user-button{
+  position:relative;
+  background-color: red;
+  color: #fff;
+  right: 4px;
+  /* border: none; */
+  /* padding: 10px 16px; */
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+ 
+}
+
+.delete-user-button:hover{
+  background-color: #b30000;
+}

@@ -10,7 +10,7 @@ const Sidebar = () => {
   const handleLogout = () => {
     
     localStorage.removeItem('user');
-    navigate("/login")
+    
   }
 
   return (
@@ -20,7 +20,7 @@ const Sidebar = () => {
       {localStorage.getItem('user') && <li><Link to="/events"><IoCalendarOutline /><span>Eventos</span></Link></li>}
       {!localStorage.getItem('user') && <li><Link to="/login"><CiLogin /><span>Login</span></Link></li>}
     </ul>
-    {localStorage.getItem('user') && <Link to="/login" onClick={() => handleLogout()}><CiLogout /><span>Logout</span></Link>}
+    {localStorage.getItem('user') && <Link to="/" onClick={() => handleLogout()}><CiLogout /><span>Logout</span></Link>}
   </div>
   )
 }

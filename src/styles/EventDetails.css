@@ -135,7 +135,7 @@
     background-color: #3e8e41;
   }
 
-  .back-button{
+  .back-to-events{
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -145,7 +145,7 @@
     margin-top: 10px;
   }
 
-  .back-button:hover {
+  .back-to-events:hover {
     background-color: #3e8e41;
   }
 

@@ -393,7 +393,7 @@ const EventDetails = () => {
       <div className='event-actions'>
 
 
-      <button className='back-button' onClick={() => handleBack()}>Voltar</button>
+      <button className='back-to-events' onClick={() => handleBack()}>Voltar</button>
       {isEventOrganizer && <button className='edit-button' onClick={() => handleEditEvent()}>Editar Evento</button>}
       </div>
       </div>

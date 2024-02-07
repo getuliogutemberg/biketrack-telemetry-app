@@ -5,6 +5,7 @@ import { userLogin } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Login.css';
+import { Link } from 'react-router-dom';
 
 
 const Login = () => {
@@ -30,7 +31,7 @@ const Login = () => {
       const token = response.data;
       dispatch(userLogin({username, token}));
       localStorage.setItem('user', JSON.stringify({username, token}));
-      navigate("/events")
+      navigate("/")
     }).catch((error) => {
       setError('Usuário ou senha inválidos');
       setTimeout(() => setError(''), 3000);
@@ -40,20 +41,24 @@ const Login = () => {
     // navigate("/events")
   }
  
-
-  return (
+  
+  return (<>
     <div className='login'>
-      <h3 className='login-title'><CiLogin/> Login</h3>
-      {/* <p>{user.username}</p> */}
-
+      <h3 className='login-title'><CiLogin style={{scale: '2', marginRight: '10px'}}/>Login</h3>
+      
       <div className='login-inputs'>
-      <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
+      <div className='login-buttons'>
+        <Link className='login-button' onClick={() => handleLogin()}>Login</Link>
+        <Link className='register-button' to={"/register"}>Register</Link>
+      </div>
+    <Link className='start-button' to={"/"}>Voltar</Link>
 
-      <button className='login-button' onClick={() => handleLogin()}>Login</button>
+
       {error && <p className='error'>{error}</p>}
-    </div>
+    </div></>
   );
 };
 

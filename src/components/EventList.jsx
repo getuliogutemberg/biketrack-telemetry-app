@@ -36,6 +36,12 @@ const EventList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
 
+  const handleLogout = () => {
+    
+    localStorage.removeItem('user');
+    
+  }
+
   const handleShowDeleteModal = (eventId) => {
     setEventToDelete(eventId);
     setShowDeleteModal(true);
@@ -134,15 +140,27 @@ const EventList = () => {
   };
 
   return (
-  <div className='event-list-container'>
-    <div className='event-list'>
-     {localStorage.getItem('user') && <h3 className='event-list-title'>Eventos</h3>}
+  <div className='events-list'>
+    <div className='events-header'>
+      
+      <h1 className='lobby-title'>BikeTrack</h1>
+      <div className='lobby-menu'>
+      {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
+      {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
+      {user && <Link className="start-button" to="/" onClick={() => handleLogout()}><span>Sair</span></Link>}
+      </div>
+    </div>
+
+    <div className='events-body'>
+      {localStorage.getItem('user') && <h3 className='event-list-title'>Eventos</h3>}
 
       {error && <p className='error'>{error}</p>}
       
       {!localStorage.getItem('user') && <p className='error'>Faça o login para ver os eventos</p>}
       
       <div className='event-card-container'>
+    {localStorage.getItem('user') && user.isAdmin && <button className='create-event' onClick={handleOpenCreateEventModal}>Novo Evento</button> }
+
       {localStorage.getItem('user') && 
       
       
@@ -174,6 +192,7 @@ const EventList = () => {
             
           ))
       }
+
       </div>
 
       {/* Modal de Confirmação de Exclusão */}
@@ -192,7 +211,6 @@ const EventList = () => {
     </div>
 
     <div className='event-list-footer'>
-    {localStorage.getItem('user') && user.isAdmin && <button onClick={handleOpenCreateEventModal}>Criar Novo Evento</button> }
 
     </div>
   </div>
