@@ -65,7 +65,7 @@ const Lobby = () => {
       </div>
       <div className='lobby-body'>
        <img
-        className='image-carousel'
+        className='image-carousel fade-image'
           src={imageLobby ? imageLobby : '/mulher-ciclista-profissional.jpg'} // Propriedade imageSrc passada para o componente
           alt={'Imagem aleatória'} // Propriedade altText passada para o componente
         /> 

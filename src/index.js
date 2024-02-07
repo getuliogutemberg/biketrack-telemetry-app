@@ -16,6 +16,7 @@ import Login from './components/Login';
 import UserList from './components/UserList';
 import Lobby from './components/Lobby';
 import UserDetails from './components/UserDetails';
+import Register from './components/Register';
 
 // import ErrorPage from "./error-page";
 
@@ -34,6 +35,8 @@ root.render(
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/users" element={<UserList />} />
           <Route path="/users/:id" element={<UserDetails />} />
+          <Route path="/register" element={<Register />} />
+
 
 
         </Routes>   
