@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { LuUsers2 } from "react-icons/lu";
+
 import { Link } from 'react-router-dom';
 import '../styles/Lobby.css'
 import axios from 'axios';
@@ -23,6 +23,9 @@ const Lobby = () => {
       },
       (error) => {
         setError(error);
+        setInterval(() => {
+          setError('');
+        }, 3000);
       }
     )
   };
@@ -41,15 +44,7 @@ const Lobby = () => {
     navigate("/login")
   }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000 // Tempo em milissegundos entre cada slide
-  };
+  
 
   return (
     <div className='lobby'>
@@ -64,6 +59,7 @@ const Lobby = () => {
         </div>
       </div>
       <div className='lobby-body'>
+        {error && <div className="error-message">{error}</div>}
        <img
         className='image-carousel fade-image'
           src={imageLobby ? imageLobby : '/mulher-ciclista-profissional.jpg'} // Propriedade imageSrc passada para o componente

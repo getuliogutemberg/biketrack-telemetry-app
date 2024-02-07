@@ -3,10 +3,10 @@ import { CiLogin } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LuUsers2 } from "react-icons/lu";
-// import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+
+import {  Link } from 'react-router-dom';
 const Sidebar = () => {
-  const navigate = useNavigate();
+  
   const handleLogout = () => {
     
     localStorage.removeItem('user');

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import '../styles/CreateEventModal.css';
 import { now } from 'mongoose';
