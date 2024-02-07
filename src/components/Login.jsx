@@ -40,6 +40,12 @@ const Login = () => {
     // dispatch(setUser({username, password, isAdmin: false}));
     // navigate("/events")
   }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
  
   
   return (<>
@@ -48,7 +54,7 @@ const Login = () => {
       
       <div className='login-inputs'>
         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress}/>
       </div>
       <div className='login-buttons'>
         <Link className='login-button' onClick={() => handleLogin()}>Login</Link>
