@@ -3,15 +3,14 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Map from './Map';
 import '../styles/EventDetails.css'; // Adicione um arquivo de estilo para personalizar ainda mais
-import io from 'socket.io-client'; 
 import EditEventModal from './EditEventModal';
 import { Link } from 'react-router-dom';
 
-const socket = io('http://localhost:5000');
+
 const EventDetails = () => {
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
-  const [event, setEvent] = useState({});
+  const [event, setEvent] = useState('');
   const [coordinates, setCoordinates] = useState([0, 0]);
   const isParticipantRegistered = event.attendees && event.attendees.some(existingUser => existingUser.username === JSON.parse(localStorage.getItem('user')).username);
   const isEspectatorRegistered = event.espects && event.espects.some(existingUser => existingUser.username === JSON.parse(localStorage.getItem('user')).username);
@@ -26,7 +25,7 @@ const EventDetails = () => {
 
   const modifyEvent = (event) => {
     axios
-      .put(`http://localhost:5000/events/${id}`, event, {
+      .put(`http://localhost:5005/events/${id}`, event, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -40,19 +39,12 @@ const EventDetails = () => {
         console.log(error.message);
       });
   }
-  const handleUpdateLocation = (id) => {
-    // console.log('handleUpdateLocation called', id);
-    // Simule novas coordenadas (substitua por suas coordenadas reais)
-    const newCoordinates = [-0.118092682, 51.509865];
-    
-    // Emita as novas coordenadas para o servidor
-    socket.emit('updateCoordinates', { id, newCoordinates });
-  };
+ 
 
   useEffect(() => {
     // console.log(id);
     axios
-      .get(`http://localhost:5000/events/${id}`, {
+      .get(`http://localhost:5005/events/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -67,9 +59,11 @@ const EventDetails = () => {
       });
   }, []);
 
-  useEffect(() => {
-    console.log('event', event);
-  }, [event]);
+  // useEffect(() => {
+  //   if (event) {
+  //     console.log('event', event);
+  // }
+  // }, [event]);
 
   useEffect(()=>{
     if (navigator.geolocation) {
@@ -95,35 +89,14 @@ const EventDetails = () => {
     }
   }, [event]);
 
-  useEffect(() => {
-    // Conectar o socket ao servidor
-    
-    // Corrija o evento para 'updateLocation' (um evento personalizado)
-    socket.on('updateLocation', (updatedCoordinates) => {
-      console.log('Received coordinates:', updatedCoordinates);
-      // Atualize o estado do componente com as novas coordenadas
-      setEvent((prevEvent) => ({
-        ...prevEvent,
-        attendees: prevEvent.attendees.map((participant) =>
-          participant.id === updatedCoordinates.id
-            ? { ...participant, coordinates: updatedCoordinates.coordinates }
-            : participant
-        ),
-      }));
-    });
-
-    return () => {
-      // Desconectar o socket quando o componente for desmontado
-      socket.disconnect();
-    };
-  }, [ event ]);
+  
 
   const handleBack = () => {
     window.history.back();
   };
 
   const participantRegister = () => {
-    axios.get(`http://localhost:5000/users`, {
+    axios.get(`http://localhost:5005/users`, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -137,7 +110,7 @@ const EventDetails = () => {
       if (!isAlreadyRegistered) {
         
 
-        axios.post(`http://localhost:5000/registerParticipant/${event._id}`,
+        axios.post(`http://localhost:5005/registerParticipant/${event._id}`,
         {
           user: {...user,posicao: 0 , cordenadas: coordinates },
         }, {
@@ -161,7 +134,7 @@ const EventDetails = () => {
   };
 
   const participantUnregister = () => {
-    axios.get(`http://localhost:5000/users`, {
+    axios.get(`http://localhost:5005/users`, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -175,7 +148,7 @@ const EventDetails = () => {
 
   if (isRegistered) {
     // Remove o participante da lista no backend
-    axios.post(`http://localhost:5000/removeParticipant/${event._id}`,{
+    axios.post(`http://localhost:5005/removeParticipant/${event._id}`,{
       user: user,
     },{
       headers: {
@@ -231,7 +204,7 @@ const EventDetails = () => {
   };
 
   const spectatorRegister = () => {
-    axios.get(`http://localhost:5000/users`, {
+    axios.get(`http://localhost:5005/users`, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -244,7 +217,7 @@ const EventDetails = () => {
   
       if (!isAlreadyRegistered) {
 
-        axios.post(`http://localhost:5000/registerEspect/${event._id}`, {
+        axios.post(`http://localhost:5005/registerEspect/${event._id}`, {
         user: user,
       }, {
         headers: {
@@ -267,7 +240,7 @@ const EventDetails = () => {
   };
 
   const spectatorUnregister = () => {
-    axios.get(`http://localhost:5000/users`, {
+    axios.get(`http://localhost:5005/users`, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -281,7 +254,7 @@ const EventDetails = () => {
 
   if (isRegistered) {
     // Remove o participante da lista no backend
-    axios.post(`http://localhost:5000/removeEspect/${event._id}`,{
+    axios.post(`http://localhost:5005/removeEspect/${event._id}`,{
       user: user,
     },{
       headers: {
@@ -318,12 +291,7 @@ const EventDetails = () => {
     }));
   };
 
-  const spectatorDelete = (spectatorId) => {
-    setEvent((prevEvent) => ({
-      ...prevEvent,
-      espect: prevEvent.espect.filter((spectator) => spectator.id !== spectatorId),
-    }));
-  };
+  
 
  const handleLogout = () => {
   localStorage.removeItem('user');
@@ -347,7 +315,7 @@ const EventDetails = () => {
       <div className="event-details-container">
 
       <div className='event-map'>
-        <Map participantes={event.attendees} espectadores={event.espects} circuito={event.circuito} handleUpdateLocation={handleUpdateLocation}/>
+        <Map participantes={event.attendees} espectadores={event.espects} circuito={event.circuito} />
       </div>
 
       <div className='event-info'>

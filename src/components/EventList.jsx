@@ -57,14 +57,14 @@ const EventList = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await axios('http://localhost:5000/users', {
+        const response = await axios('http://localhost:5005/users', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'authorization': JSON.parse(localStorage.getItem('user')).token,
           },
         });
-        console.log(response.data.filter((user) => user.username === JSON.parse(localStorage.getItem('user')).username)[0]);
+        // console.log(response.data.filter((user) => user.username === JSON.parse(localStorage.getItem('user')).username)[0]);
         setUser(response.data.filter((user) => user.username === JSON.parse(localStorage.getItem('user')).username)[0]);
       } catch (error) {
         console.log(error);
@@ -84,7 +84,7 @@ const EventList = () => {
     // console.log(eventData)
     try {
       // Envie os dados do novo evento para a API
-      const response = await axios.post('http://localhost:5000/events', eventData, {
+      const response = await axios.post('http://localhost:5005/events', eventData, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -104,7 +104,7 @@ const EventList = () => {
   useEffect(() => {
     const getEvents = async () => {
       try {
-      const response = await axios('http://localhost:5000/events', {
+      const response = await axios('http://localhost:5005/events', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ const EventList = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/events/${eventToDelete}`, {
+      await axios.delete(`http://localhost:5005/events/${eventToDelete}`, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,

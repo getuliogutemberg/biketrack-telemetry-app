@@ -32,7 +32,7 @@ const UserCard = ({ user,deleteUser }) => {
   const isAdmin = admin.isAdmin;
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/users', {
+    axios.get('http://localhost:5005/users', {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -82,7 +82,7 @@ const UserList = () => {
 
   const handleCreateUser = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/users', userData, {
+      const response = await axios.post('http://localhost:5005/users', userData, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -105,7 +105,7 @@ const UserList = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await axios('http://localhost:5000/users', {
+        const response = await axios('http://localhost:5005/users', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const UserList = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/users/${userId}`, {
+      await axios.delete(`http://localhost:5005/users/${userId}`, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,
@@ -151,7 +151,7 @@ const UserList = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/users/${userToDelete}`, {
+      await axios.delete(`http://localhost:5005/users/${userToDelete}`, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': JSON.parse(localStorage.getItem('user')).token,

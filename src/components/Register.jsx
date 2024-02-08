@@ -39,7 +39,7 @@ const Register = () => {
     const dispatch = useDispatch();
   
     const handleRegister = () => {
-      axios('http://localhost:5000/register', {
+      axios('http://localhost:5005/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

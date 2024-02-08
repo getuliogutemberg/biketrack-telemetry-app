@@ -39,7 +39,7 @@ const EditEventModal = ({ isOpen, onRequestClose, onEditEvent, event }) => {
 
   useEffect(() => {
     try {
-    axios.get(`http://localhost:5000/users/`, {
+    axios.get(`http://localhost:5005/users/`, {
       headers: {
         'Content-Type': 'application/json',
         'authorization': JSON.parse(localStorage.getItem('user')).token,

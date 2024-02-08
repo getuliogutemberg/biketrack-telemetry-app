@@ -12,7 +12,7 @@ const UserDetails = () => {
     useEffect(() => {
         // console.log(id);
         axios
-          .get(`http://localhost:5000/users/${id}`, {
+          .get(`http://localhost:5005/users/${id}`, {
             headers: {
               'Content-Type': 'application/json',
               'authorization': JSON.parse(localStorage.getItem('user')).token,

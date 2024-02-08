@@ -10,64 +10,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
-const io = socketIo(server);
 
-const PORT = process.env.PORT || 5000;
+const io = socketIo(server,{
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+  },
+});
 
-// const events = [
-//   { 
-//     id: 1, 
-//     name: 'Giro de Mtb',
-//     espects: [
-//       { id: 1, name: 'fulano', age: 23, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',},
-//       { id: 2,name: 'beltrano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',},
-//       { id: 3,name: 'ciclano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',},
-//       { id: 4,name: 'miculano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',},
-//     ],
-//     description: 'Descrição do evento',
-//     map: 'http://www.google.com.br',
-//     organizer: {
-//       name: 'Getulio',
-//       email: 'getulio.dev@gmail',
-//     },
-//     image: 'https://www.pedal.com.br/fotos/noticias/11953001f.jpg',
-//     date: new Date(),
-//     modal: 'mtb',
-//     attendees: [
-//       { id: 1, name: 'fulano', age: 23, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',posicao: 1,cordenadas: [-8.047562, -34.877044],},
-//       { id: 2,name: 'beltrano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 2,cordenadas: [-8.046562, -34.877044],},
-//       { id: 3,name: 'ciclano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 3,cordenadas: [-8.045562, -34.877044],},
-//       { id: 4,name: 'miculano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 4,cordenadas: [-8.044562, -34.877044],},
-    
-//     ],   
-//     circuito: 'http://www.google.com.br',
-//   },
-//   { 
-//     id: 2, 
-//     name: 'Giro de Speed',
-//     espects: [
-//       { id: 1, name: 'Jorge', age: 23 },
-//       { id: 2, name: 'Maria', age: 22 },
-//     ],
-//     description: 'Descrição do evento',
-//     map: 'http://www.google.com.br',
-//     organizer: {
-//       name: 'Getulio',
-//       email: 'getulio.dev@gmail',
-//     },
-//     image: 'https://www.opopularjm.com.br/wp-content/uploads/2019/09/DSC_1959.jpg',
-//     date: new Date(),
-//     modal: 'Speed',
-//     attendees: [
-//       { id: 1, name: 'fulano', age: 23, gender: 'M',categoria: 'Adulto',modalidade: 'Speed',posicao: 1,cordenadas: [-8.047562, -34.877044],},
-//       { id: 2,name: 'beltrano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 2,cordenadas: [-8.046562, -34.877044],},
-//       { id: 3,name: 'ciclano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 3,cordenadas: [-8.045562, -34.877044],},
-//       { id: 4,name: 'miculano', age: 22, gender: 'M',categoria: 'Adulto',modalidade: 'Speed', posicao: 4,cordenadas: [-8.044562, -34.877044],},
-    
-//     ],
-//     circuito: 'http://www.google.com.br',
-//   },
-// ];
+const PORT = process.env.PORT || 5005;
+
 
 mongoose.connect('mongodb://localhost:27017/biketrack-telemetry');
 mongoose.connection.on('error', (error) => console.error('MongoDB connection error:', error));
@@ -98,12 +50,19 @@ const eventSchema = new mongoose.Schema({
   circuito: String,
 });
 
+const messageSchema = new mongoose.Schema({
+  username: String,
+  messagem: String,
+});
+
 // modelo de Usuário
 
 
 const Event = mongoose.model('Event', eventSchema);
 
 const User = mongoose.model('User', userSchema);
+
+const Message = mongoose.model('Message', messageSchema);
 
 
 // Middleware para autenticação
@@ -317,14 +276,21 @@ app.post('/updateCoordinates', (req, res) => {
 });
 
 
-
-io.on('connection', (socket) => {
-  console.log('Socket connected:', socket.id);
-  
-  // Lógica para receber dados de geolocalização dos corredores e transmitir para os espectadores
-  socket.on('updateCoordinates', (data) => {
-    console.log('Received coordinates:', data);
-    io.emit('updateLocation', data);
+io.on('connection', async (socket) => {
+  const { username } = socket.handshake.query;
+  io.emit('historicChat', await Message.find());
+  console.log('Novo cliente conectado:', username);
+  socket.on('deleteMessage', async (data) => {
+    await Message.findByIdAndDelete(data);    
+    io.emit('historicChat', await Message.find());
+  })
+  socket.on('messagem', (data) => {
+    console.log( username + ' enviou:', data);
+    Message.create({ username, messagem: data });
+    io.emit('messagens', { username, messagem: data });
+  });
+  socket.on('disconnect', () => {
+    console.log('Cliente desconectado:', username);
   });
 });
 
