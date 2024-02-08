@@ -73,8 +73,6 @@ useEffect(() => {
     })
   }, []);
 
-  
-
   const handleLogout = () => {
     
     localStorage.removeItem('user');
@@ -114,9 +112,9 @@ useEffect(() => {
         <span className='chat-title'>Socket Chat</span>
         <div className='messages-container' ref={messagesEndRef}>
         <span className='welcome'>Bem vindo {user ? user.username : 'Visitante'}</span>
-        {messageHistory.map((messagem) => (
+        {messageHistory.length ? messageHistory.map((messagem) => (
           <div className='message-container'><span className='message' key={messagem._id}>{messagem.username}:{messagem.messagem}</span>{localStorage.getItem('user') ? messagem.username === JSON.parse(localStorage.getItem('user')).username  ? <button className='delete-message' onClick={() => socket.emit('deleteMessage', messagem._id)}>X</button> : messagem.username === 'Visitante' && localStorage.getItem('user') && <button className='delete-message' onClick={() => socket.emit('deleteMessage', messagem._id)}>X</button> :  null}</div>
-        ))}
+        )): <div className='message'>Sem mensagens</div>}
       
       </div>
       <div className='send-message-container'>
