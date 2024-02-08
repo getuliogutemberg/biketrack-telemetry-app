@@ -277,9 +277,9 @@ app.post('/updateCoordinates', (req, res) => {
 
 
 io.on('connection', async (socket) => {
-  const { username } = socket.handshake.query;
+  
   io.emit('historicChat', await Message.find());
-  console.log('Novo cliente conectado:', username);
+  console.log('Novo cliente conectado');
 
   socket.on('getChatHistory', async () => {
     // Emita o histórico de mensagens para o cliente que solicitou
@@ -292,13 +292,13 @@ io.on('connection', async (socket) => {
   })
 
   socket.on('messagem', (data) => {
-    console.log( username + ' enviou:', data);
-    Message.create({ username, messagem: data });
-    io.emit('messagens', { username, messagem: data });
+    console.log( data.username + ' enviou:', data.messagem,);
+    Message.create({ username: data.username, messagem: data.messagem });
+    io.emit('messagens', { username: data.username, messagem: data.messagem });
   });
-  
+
   socket.on('disconnect', () => {
-    console.log('Cliente desconectado:', username);
+    console.log('Cliente desconectado');
   });
 });
 
