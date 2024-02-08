@@ -15,7 +15,7 @@ const socket = socketIOClient('http://localhost:5005', {
 }) 
 
 const Lobby = () => {
-
+  const [showSocketChat, setShowSocketChat] = useState(false);
   const messagesEndRef = useRef(null);
   const [user , setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [messagem, setMessagem] = useState('');
@@ -97,6 +97,9 @@ useEffect(() => {
       
         <Link className='lobby-title'  to={'/'}>BikeTrack</Link>
         <div className='lobby-menu'>
+        
+        {!showSocketChat ? <button className="start-button" style={{backgroundColor: '#555'}} onClick={() => setShowSocketChat(true)}><span>Socket Chat</span></button> : <button className="start-button"  onClick={() => setShowSocketChat(false)}><span>Socket Chat</span></button>}
+
         {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
         {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
         
@@ -108,7 +111,7 @@ useEffect(() => {
        
      
       {/* {lastMessage ? <span>Last message: {lastMessage.data}</span> : null} */}
-      <div className='chat'>
+      {showSocketChat && <div className='chat'>
         <span className='chat-title'>Socket Chat</span>
         <div className='messages-container' ref={messagesEndRef}>
         <span className='welcome'>Bem vindo {user ? user.username : 'Visitante'}</span>
@@ -121,7 +124,7 @@ useEffect(() => {
       <input type="text" className='input-message' placeholder="Mensagem" onChange={(e) => setMessagem(e.target.value)} value={messagem} />
       <button className='send-message' onClick={() => messagem && socket.emit('messagem', messagem) } >Enviar </button>
       </div>
-      </div>
+      </div>}
     </div>
         {error && <div className="error-message">{error}</div>}
        <img
