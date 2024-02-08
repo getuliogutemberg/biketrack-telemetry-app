@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../styles/Lobby.css'
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
+import Badge from 'react-bootstrap/Badge';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const userSocket = user ? user.username : 'Visitante';
@@ -15,13 +16,14 @@ const socket = socketIOClient('http://localhost:5005', {
 }) 
 
 const Lobby = () => {
+  const location = window.location;
   const [showSocketChat, setShowSocketChat] = useState(false);
   const messagesEndRef = useRef(null);
   const [user , setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [messagem, setMessagem] = useState('');
   const [imageLobby, setImageLobby] = React.useState('');
   const [error, setError] = React.useState('');
-
+  const [messageHistory, setMessageHistory] = useState([]);
 
 useEffect(() => {
   localStorage.getItem('user') &&
@@ -54,7 +56,7 @@ useEffect(() => {
   return () => clearInterval(interval);
   
   },[])
-  const [messageHistory, setMessageHistory] = useState([]);
+  
   useEffect(() => {
     socket.on('messagens', (message) => {
       // console.log(message);
@@ -87,9 +89,10 @@ useEffect(() => {
     };
     scrollToBottom();
   }, [messageHistory]);
-   
-  
-  
+
+  useEffect(() => {
+    socket.emit('getChatHistory');
+  },[location]); 
 
   return (
     <div className='lobby'>
@@ -98,7 +101,7 @@ useEffect(() => {
         <Link className='lobby-title'  to={'/'}>BikeTrack</Link>
         <div className='lobby-menu'>
         
-        {!showSocketChat ? <button className="start-button" style={{backgroundColor: '#555'}} onClick={() => setShowSocketChat(true)}><span>Socket Chat</span></button> : <button className="start-button"  onClick={() => setShowSocketChat(false)}><span>Socket Chat</span></button>}
+        {!showSocketChat ? <button className="start-button" style={{backgroundColor: '#555'}} onClick={() => setShowSocketChat(true)}>{messageHistory.length > 0 && <div className='badge'>{messageHistory.length} </div> } <span>Socket Chat</span> </button> : <button className="socket-button"  onClick={() => setShowSocketChat(false)}><span>Socket Chat </span>{messageHistory.length > 0 && <div className='badge'>{messageHistory.length} </div> }</button>}
 
         {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
         {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
@@ -121,8 +124,8 @@ useEffect(() => {
       
       </div>
       <div className='send-message-container'>
-      <input type="text" className='input-message' placeholder="Mensagem" onChange={(e) => setMessagem(e.target.value)} value={messagem} />
-      <button className='send-message' onClick={() => messagem && socket.emit('messagem', messagem) } >Enviar </button>
+      <input type="text" className='input-message' placeholder="Mensagem" onChange={(e) => setMessagem(e.target.value)} value={messagem} onKeyDown={(e) => e.key === 'Enter' && messagem && socket.emit('messagem', messagem) && setMessagem('')}/>
+      <button className='send-message' onClick={() => messagem && socket.emit('messagem', messagem) && setMessagem('') } >Enviar </button>
       </div>
       </div>}
     </div>

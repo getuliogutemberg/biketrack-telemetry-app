@@ -45,6 +45,37 @@
 .start-button:hover{
     background-color: #3e8e41;
 }
+.badge{
+    
+    background-color: #ff0000;
+    border-radius: 50%;
+    color: #fff;
+    transform: translate(450%, -50%);
+    padding: 2px 6px;
+    border: 3px solid #fff;
+    cursor: pointer;
+    /* top: 10%; */
+    font-weight: bold;
+    font-size: 13px;
+    position: absolute;
+}
+.socket-button{
+    margin: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* margin-top: 10px; */
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    align-self: center;
+    display: flex;
+    justify-content: baseline;
+    gap: 10px;
+}
 
 .lobby-body{
     

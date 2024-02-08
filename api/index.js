@@ -280,15 +280,23 @@ io.on('connection', async (socket) => {
   const { username } = socket.handshake.query;
   io.emit('historicChat', await Message.find());
   console.log('Novo cliente conectado:', username);
+
+  socket.on('getChatHistory', async () => {
+    // Emita o histórico de mensagens para o cliente que solicitou
+    socket.emit('historicChat', await Message.find());
+  });
+
   socket.on('deleteMessage', async (data) => {
     await Message.findByIdAndDelete(data);    
     io.emit('historicChat', await Message.find());
   })
+
   socket.on('messagem', (data) => {
     console.log( username + ' enviou:', data);
     Message.create({ username, messagem: data });
     io.emit('messagens', { username, messagem: data });
   });
+  
   socket.on('disconnect', () => {
     console.log('Cliente desconectado:', username);
   });
