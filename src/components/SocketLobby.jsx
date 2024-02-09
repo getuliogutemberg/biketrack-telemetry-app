@@ -1,14 +1,14 @@
 import React , { useEffect, useState } from 'react'
 import '../styles/SocketLobby.css'
 import socketIOClient from 'socket.io-client';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
+
 
 const socket = socketIOClient('http://localhost:5005')
 
-const SocketLobby = () => {
+const SocketLobby = (props) => {
 
     const [userLobby, setUserLobby] = useState('');
-    const [userPosition, setUserPosition] = useState({ x: 0, y: 0 });
+    
     const [positions, setPositions] = useState([]);
     
     
@@ -26,8 +26,8 @@ const SocketLobby = () => {
         
         userLobby !== '' && socket.emit('enterLobby', {
             username: userLobby,
-            x: userPosition.x,
-            y: userPosition.y,
+            x: 0,
+            y: 0,
           });
           return () => userLobby !== '' && socket.emit('removeUser', {username: userLobby});
       }, [ userLobby ]);
@@ -36,8 +36,8 @@ const SocketLobby = () => {
         // Keyboard event handler
         const handleKeyDown = (event) => {
           const { key } = event;
-          let x = userPosition.x;
-          let y = userPosition.y;
+          let x = 0;
+          let y = 0;
     
           switch (key) {
             case 'ArrowUp':
@@ -66,11 +66,11 @@ const SocketLobby = () => {
         return () => {
           window.removeEventListener('keydown', handleKeyDown);
         };
-      }, [socket, userLobby, userPosition.x, userPosition.y]);
+      }, [userLobby]);
 
   return (
 
-    <div className='socket-lobby'>
+    props.showSocketLobby ? <div className='socket-lobby'>
         <div class="chessboard">
             {userLobby === '' && <input type="text" placeholder="Username"  onBlur={(e) => setUserLobby(e.target.value)} />}
         {positions.map((position, index) => (
@@ -86,7 +86,7 @@ const SocketLobby = () => {
           >{position.username}</div>
         ))}
         </div>
-    </div>
+    </div> : null
   )
 }
 

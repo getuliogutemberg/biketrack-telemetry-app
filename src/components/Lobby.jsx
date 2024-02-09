@@ -57,6 +57,11 @@ useEffect(() => {
           }} onClick={() => setShowSocketChat(!showSocketChat)}> <span>Socket Chat</span> </button>
         {badgeNumer > 0 && <div className='badge'>{badgeNumer} </div> }
 
+        <button className="start-button"  style={{ 
+          border: showSocketLobby && '2px solid white',
+          boxSizing: 'border-box',
+          }} onClick={() => setShowSocketLobby(!showSocketLobby)}> <span>Socket Lobby</span> </button>
+
         {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
         {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
         
@@ -66,7 +71,7 @@ useEffect(() => {
       <div className='lobby-body'>
       <div className='lobby-socket'>
        
-      {/* <SocketLobby showSocketLobby={showSocketLobby} setShowSocketLobby={() => setShowSocketLobby(false)}/> */}
+      <SocketLobby showSocketLobby={showSocketLobby} setShowSocketLobby={() => setShowSocketLobby(false)}/>
       <SocketChat showSocketChat={showSocketChat} setBadgeNumber={setBadgeNumber} setShowSocketChat={() => setShowSocketChat(false)}/>
     </div>
         {error && <div className="error-message">{error}</div>}
