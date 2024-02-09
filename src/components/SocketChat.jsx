@@ -10,7 +10,7 @@ const SocketChat = ( props ) => {
     const messagesEndRef = useRef(null);
     const [messageHistory, setMessageHistory] = useState([]);
     const [messagem, setMessagem] = useState('');
-    const [userChat, setUserChat] = useState(JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).username : 'Visitante');
+    const [userChat, setUserChat] = useState('Visitante');
 
 
 
@@ -61,7 +61,7 @@ const SocketChat = ( props ) => {
         {userChat !== 'Visitante' && <span className='welcome'>Bem vindo {userChat}</span>}
         
         {messageHistory.length ? messageHistory.map((messagem) => (
-          <div className='message-container'>
+          <div className='message-container' key={messagem._id}>
             <span className='message' key={messagem._id}>
               {messagem.username}:{messagem.messagem}
             </span>

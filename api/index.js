@@ -55,6 +55,13 @@ const messageSchema = new mongoose.Schema({
   messagem: String,
 });
 
+const positionSchema = new mongoose.Schema({
+  username: String,
+  x: Number,
+  y: Number,
+  date: Date,
+});
+
 // modelo de Usuário
 
 
@@ -63,6 +70,8 @@ const Event = mongoose.model('Event', eventSchema);
 const User = mongoose.model('User', userSchema);
 
 const Message = mongoose.model('Message', messageSchema);
+
+const Position = mongoose.model('Position', positionSchema);
 
 
 // Middleware para autenticação
@@ -278,8 +287,10 @@ app.post('/updateCoordinates', (req, res) => {
 
 io.on('connection', async (socket) => {
   
+  console.log('Novo cliente conectado' + socket.id);
   io.emit('historicChat', await Message.find());
-  console.log('Novo cliente conectado');
+  io.emit('positions', await Position.find());
+  
 
   socket.on('getChatHistory', async () => {
     // Emita o histórico de mensagens para o cliente que solicitou
@@ -297,9 +308,51 @@ io.on('connection', async (socket) => {
     io.emit('messagens', { username: data.username, messagem: data.messagem });
   });
 
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
+  socket.on('enterLobby', async (data) => {
+    
+    const isInLobby = await Position.findOne({ username: data.username });
+
+    !isInLobby && await Position.create({ username: data.username, x: data.x, y: data.y, date: new Date() });
+    io.emit('positions', await Position.find());
   });
+
+  socket.on('getUser', async (data) => {
+    const user = await User.findById(data);
+    socket.emit('user', user);
+  });
+
+  socket.on('getUsers', async () => {
+    socket.emit('users', await User.find());
+  });
+
+  socket.on('getPositions', async () => {
+    socket.emit('positions', await Position.find());
+  });
+
+  socket.on('moveUser', async (data) => {
+    console.log( 'O cliente ' + data.username + ' moveu para:', data.x, data.y);
+    const oldPosition = await Position.findOne({ username: data.username });
+    await Position.updateOne({ username: data.username }, { $set: { x: oldPosition.x + data.x, y: oldPosition.y + data.y, date: new Date() } }, { upsert: true });
+    io.emit('positions', await Position.find());
+  });
+
+  socket.on('removeUser', async (data) => {
+    console.log('User disconnected:', data);
+    // Remover a posição do usuário
+    await Position.deleteOne({ username: data.username });
+    // Enviar posições atualizadas para todos os clientes
+    io.emit('positions', await Position.find());
+  });
+
+  socket.on('disconnect', async () => {
+    // Quando o socket é desconectado, emitimos um evento para remover a posição do usuário do servidor
+    console.log('Cliente desconectado');
+    // const username = await Position.findOne({ socketId: socket.id }).select('username');
+    // if (username) {
+    //   socket.emit('removeUser', { username: username });
+    // }
+  });
+
 });
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

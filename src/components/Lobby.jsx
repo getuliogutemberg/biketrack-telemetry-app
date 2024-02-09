@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import '../styles/Lobby.css'
 import axios from 'axios';
 import SocketChat from './SocketChat';
+import SocketLobby from './SocketLobby';
 
 const Lobby = () => {
   
   const [showSocketChat, setShowSocketChat] = useState(false);
+  const [showSocketLobby, setShowSocketLobby] = useState(false);
   
   const [user , setUser] = useState(JSON.parse(localStorage.getItem('user')));
   
@@ -58,12 +60,13 @@ useEffect(() => {
         {user ? <Link className="start-button" to={`/events`}><span>Eventos</span></Link> : <Link className="start-button" to={"/login"}><span>Entrar</span></Link>}
         {user && <Link className="start-button" to={`/users/`}><span>Usuarios</span></Link>}
         
-        {user && <Link className="start-button" to={'/'} onClick={() => localStorage.removeItem('user')}><span>Sair</span></Link>}
+        {user && <Link className="start-button" to={'/login'} onClick={() => localStorage.removeItem('user')}><span>Sair</span></Link>}
         </div>
       </div>
       <div className='lobby-body'>
       <div className='lobby-socket'>
        
+      {/* <SocketLobby showSocketLobby={showSocketLobby} setShowSocketLobby={() => setShowSocketLobby(false)}/> */}
       <SocketChat showSocketChat={showSocketChat} setBadgeNumber={setBadgeNumber} setShowSocketChat={() => setShowSocketChat(false)}/>
     </div>
         {error && <div className="error-message">{error}</div>}
