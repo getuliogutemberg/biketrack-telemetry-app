@@ -71,7 +71,7 @@ const SocketLobby = (props) => {
   return (
 
     props.showSocketLobby ? <div className='socket-lobby'>
-        <div class="chessboard">
+        <div className="chessboard">
             {userLobby === '' && <input type="text" placeholder="Username"  onBlur={(e) => setUserLobby(e.target.value)} />}
         {positions.map((position, index) => (
           <div

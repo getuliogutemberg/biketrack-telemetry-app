@@ -120,7 +120,7 @@ const EventDetails = () => {
         },
       }).then((registerResponse) => {
         // Lida com a resposta da requisição de registro no banco de dados se necessário
-        console.log('Participante registrado no banco de dados:', registerResponse.data);
+        // console.log('Participante registrado no banco de dados:', registerResponse.data);
       }).catch((registerError) => {
         console.error('Erro ao registrar participante no banco de dados:', registerError);
       });
@@ -158,7 +158,7 @@ const EventDetails = () => {
      
     }).then((removeResponse) => {
       // Lida com a resposta da requisição de remoção no banco de dados se necessário
-      console.log('Participante removido do banco de dados:', removeResponse.data);
+      // console.log('Participante removido do banco de dados:', removeResponse.data);
     }).catch((removeError) => {
       console.error('Erro ao remover participante do banco de dados:', removeError);
     });

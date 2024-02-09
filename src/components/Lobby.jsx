@@ -15,11 +15,12 @@ const Lobby = () => {
   const [imageLobby, setImageLobby] = React.useState('');
   const [error, setError] = React.useState('');
   const [ badgeNumer, setBadgeNumber] = useState(0);
- 
+  
+
 useEffect(() => {
   localStorage.getItem('user') &&
   setUser(JSON.parse(localStorage.getItem('user')))
-}, [localStorage.getItem('user')]);
+}, []);
  
   useEffect(()=>
   {
