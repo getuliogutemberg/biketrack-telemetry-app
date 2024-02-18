@@ -3,35 +3,110 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 160px);
-    width: 97%;
-    background-color: #1a1a1a;
+    /* height: calc(100vh - 160px); */
+    /* width: 50%; */
+    background-color: rgb(0, 0, 0, 0.37);
+    
     /* color: #fff; */
     border-radius: 8px;
     padding: 10px;
     margin: 20px;
     overflow-y: auto;
-    position: absolute;
+    position: relative;
     bottom: 0;
 }
 
 .chessboard {
     width: 400px;
     height: 400px;
-    border: 2px solid black;
+    box-sizing: border-box;
+    border: 5px solid black;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+  }
+
+  .player {
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(251, 0, 0);
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+   border-radius: 50%;
+    /* font-size: 24px; */
+    font-weight: bold;
+    cursor: pointer;  
+    z-index: 1;
+  }
+
+  .player:hover {
+    scale: 1.4;
+    transition: all 0.3s ease-in-out;
+    margin: 20px;
+  }
+
+  .othersPlayers {
+    margin-top: 35px;
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(114, 113, 113);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    /* font-size: 24px; */
+    font-weight: bold;
+    cursor: pointer;  
+    
+    
+    
   }
   
   .chessboard .square {
-    width: 50px;
-    height: 50px;
+    width: 47px;
+    height: 47px;
+    border: 1px solid black;
   }
   
-  .chessboard .square:nth-child(odd) {
-    background-color: #ccc;
+  .spinner{
+    position: absolute;
+    top: 11px;
+    left: 0px;
+    animation: spin 0.3s infinite linear;
+    transform-origin: 16px;
+    background-color: rgb(177, 174, 174);
+    border: 1px solid rgb(255, 255, 255);
+    height: 10px;
+    width: 16px;
+    border-radius: 50%;
+    z-index: -1;
   }
+
+  @keyframes spin {
+    
+    from {
+      transform: rotate(0deg);
+    
+
+    }
+    to {
+      transform: rotate(360deg);
+    
+
+    }
+  }
+
   
-  .chessboard .square:nth-child(even) {
-    background-color: #999;
+  .input-lobby{
+    width: fit-content;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    /* margin: 10px; */
   }

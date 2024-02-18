@@ -76,7 +76,7 @@ const SocketChat = ( props ) => {
       </div>
 
       {userChat === 'Visitante' && <div>
-            <input type='text' placeholder={userChat} className='input-username'  onBlur={(e) => e.target.value && setUserChat(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && setUserChat(e.target.value)} />
+            <input type='text' placeholder={'Insira seu nome'} className='input-username'  onBlur={(e) => e.target.value && setUserChat(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && setUserChat(e.target.value)} />
       </div>}
       
       {userChat !== 'Visitante' && userChat && <div className='send-message-container'>

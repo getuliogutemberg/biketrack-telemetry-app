@@ -25,6 +25,72 @@ mongoose.connect('mongodb://localhost:27017/biketrack-telemetry');
 mongoose.connection.on('error', (error) => console.error('MongoDB connection error:', error));
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
+const tabuleiro = [
+  { "x": 0, "y": 0 },
+  { "x": 1, "y": 0 },
+  { "x": 2, "y": 0 },
+  { "x": 3, "y": 0 },
+  { "x": 4, "y": 0 },
+  { "x": 5, "y": 0 },
+  { "x": 6, "y": 0 },
+  { "x": 7, "y": 0 },
+  { "x": 0, "y": 1 },
+  { "x": 1, "y": 1 },
+  { "x": 2, "y": 1 },
+  { "x": 3, "y": 1 },
+  { "x": 4, "y": 1 },
+  { "x": 5, "y": 1 },
+  { "x": 6, "y": 1 },
+  { "x": 7, "y": 1 },
+  { "x": 0, "y": 2 },
+  { "x": 1, "y": 2 },
+  { "x": 2, "y": 2 },
+  { "x": 3, "y": 2 },
+  { "x": 4, "y": 2 },
+  { "x": 5, "y": 2 },
+  { "x": 6, "y": 2 },
+  { "x": 7, "y": 2 },
+  { "x": 0, "y": 3 },
+  { "x": 1, "y": 3 },
+  { "x": 2, "y": 3 },
+  { "x": 3, "y": 3 },
+  { "x": 4, "y": 3 },
+  { "x": 5, "y": 3 },
+  { "x": 6, "y": 3 },
+  { "x": 7, "y": 3 },
+  { "x": 0, "y": 4 },
+  { "x": 1, "y": 4 },
+  { "x": 2, "y": 4 },
+  { "x": 3, "y": 4 },
+  { "x": 4, "y": 4 },
+  { "x": 5, "y": 4 },
+  { "x": 6, "y": 4 },
+  { "x": 7, "y": 4 },
+  { "x": 0, "y": 5 },
+  { "x": 1, "y": 5 },
+  { "x": 2, "y": 5 },
+  { "x": 3, "y": 5 },
+  { "x": 4, "y": 5 },
+  { "x": 5, "y": 5 },
+  { "x": 6, "y": 5 },
+  { "x": 7, "y": 5 },
+  { "x": 0, "y": 6 },
+  { "x": 1, "y": 6 },
+  { "x": 2, "y": 6 },
+  { "x": 3, "y": 6 },
+  { "x": 4, "y": 6 },
+  { "x": 5, "y": 6 },
+  { "x": 6, "y": 6 },
+  { "x": 7, "y": 6 },
+  { "x": 0, "y": 7 },
+  { "x": 1, "y": 7 },
+  { "x": 2, "y": 7 },
+  { "x": 3, "y": 7 },
+  { "x": 4, "y": 7 },
+  { "x": 5, "y": 7 },
+  { "x": 6, "y": 7 },
+  { "x": 7, "y": 7 ,metodo:'link', nome: 'xadrez', img: 'xadrez.png', id: 64,function:()=>{console.log('/xadrez')}},
+]
 
 const userSchema = new mongoose.Schema({
   username: String,
@@ -60,6 +126,7 @@ const positionSchema = new mongoose.Schema({
   x: Number,
   y: Number,
   date: Date,
+  socketId: String
 });
 
 // modelo de Usuário
@@ -290,6 +357,12 @@ io.on('connection', async (socket) => {
   console.log('Novo cliente conectado' + socket.id);
   io.emit('historicChat', await Message.find());
   io.emit('positions', await Position.find());
+  io.emit('tabuleiro', tabuleiro);
+
+  const isInLobby = await Position.findOne({ socketId: socket.id });
+  if (isInLobby) {
+    socket.emit('setSocketUser', { username: isInLobby.username });
+  }
   
 
   socket.on('getChatHistory', async () => {
@@ -309,11 +382,17 @@ io.on('connection', async (socket) => {
   });
 
   socket.on('enterLobby', async (data) => {
-    
-    const isInLobby = await Position.findOne({ username: data.username });
+    console.log( 'O cliente ' + data.username + ' entrou na sala');
+    if (data.username !== '') {
 
-    !isInLobby && await Position.create({ username: data.username, x: data.x, y: data.y, date: new Date() });
-    io.emit('positions', await Position.find());
+      const isInLobby = await Position.findOne({ username: data.username });
+      
+      !isInLobby && await Position.create({ username: data.username, x: 0, y: 0, date: new Date() , socketId: socket.id });
+      isInLobby && await Position.updateOne({ username: isInLobby.username }, { x: isInLobby.x, y: isInLobby.y, date: new Date() });
+      io.emit('positions', await Position.find());
+    } else {
+      socket.emit('positions', await Position.find());
+    }
   });
 
   socket.on('getUser', async (data) => {
@@ -332,21 +411,44 @@ io.on('connection', async (socket) => {
   socket.on('moveUser', async (data) => {
     console.log( 'O cliente ' + data.username + ' moveu para:', data.x, data.y);
     const oldPosition = await Position.findOne({ username: data.username });
-    await Position.updateOne({ username: data.username }, { $set: { x: oldPosition.x + data.x, y: oldPosition.y + data.y, date: new Date() } }, { upsert: true });
+    const posicaoX= oldPosition.x + data.x < 0 ? oldPosition.x : oldPosition.x + data.x >= 400 ? oldPosition.x : oldPosition.x + data.x;
+    const posicaoY= oldPosition.y + data.y < 0 ? oldPosition.y : oldPosition.y + data.y >= 400 ? oldPosition.y : oldPosition.y + data.y;
+    await Position.updateOne({ username: data.username }, { $set: { x: posicaoX, y: posicaoY, date: new Date() } }, { upsert: true });
     io.emit('positions', await Position.find());
   });
 
-  socket.on('removeUser', async (data) => {
-    console.log('User disconnected:', data);
+  socket.on('moveClickUser', async (data) => {
+    console.log( 'O cliente ' + data.username + ' clicou para:', data.x, data.y);
+    const oldPosition = await Position.findOne({ username: data.username });
+    const posicaoX= oldPosition.x + data.x < 0 ? 0 : oldPosition.x + data.x >= 400 ? 400 : data.x*50;
+    const posicaoY= oldPosition.y + data.y < 0 ? 0 : oldPosition.y + data.y >= 400 ? 400 : data.y*50;
+    await Position.updateOne({ username: data.username }, { $set: { x: posicaoX, y: posicaoY, date: new Date() } }, { upsert: true });
+    io.emit('positions', await Position.find());
+  });
+
+  
+
+  socket.on('resetUser', async (data) => {
+    console.log( 'O cliente ' + data.username + ' resetou as coordenadas');
+    
+    const posicaoX= 0
+    const posicaoY= 0
+    await Position.updateOne({ username: data.username }, { $set: { x: posicaoX, y: posicaoY, date: new Date() } }, { upsert: true });
+    io.emit('positions', await Position.find());
+  });
+
+  socket.on('removeUser', async (user) => {
+    console.log('User disconnected:', user.username);
     // Remover a posição do usuário
-    await Position.deleteOne({ username: data.username });
+    await Position.deleteOne({ username: user.username });
     // Enviar posições atualizadas para todos os clientes
     io.emit('positions', await Position.find());
+    io.emit('userSocketExit', { username: user.username });
   });
 
   socket.on('disconnect', async () => {
     // Quando o socket é desconectado, emitimos um evento para remover a posição do usuário do servidor
-    console.log('Cliente desconectado');
+    console.log('Cliente desconectado:' + socket.id);
     // const username = await Position.findOne({ socketId: socket.id }).select('username');
     // if (username) {
     //   socket.emit('removeUser', { username: username });

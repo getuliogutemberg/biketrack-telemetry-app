@@ -31,7 +31,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start": "concurrently --kill-others \"react-scripts start\" \"cd api && npm start\"",
     "start:frontend": "react-scripts start",
     "start:backend": "cd api && npm start",
     "build": "react-scripts build",
@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "concurrently": "^8.2.2"
   }
 }
