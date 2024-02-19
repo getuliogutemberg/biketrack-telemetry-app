@@ -21,9 +21,7 @@ const SocketChat = (props) => {
         setMessageHistory([...messageHistory, message]);
       });
 
-      props.socket.on('setSocketUser', (user) => {
-        setUserChat(user);
-      });
+      
   
       return () => {
         props.socket.off('messagens');
@@ -36,6 +34,10 @@ const SocketChat = (props) => {
         props.setBadgeNumber(messages.length)
         setMessageHistory(messages);
       })
+
+      props.socket.on('setSocketUser', (user) => {
+        setUserChat(user);
+      });
     }, []);
 
     useEffect(() => {
@@ -65,9 +67,10 @@ const SocketChat = (props) => {
         {userChat && userChat.username !== 'Visitante' && <span className='welcome'>Bem vindo {userChat.username}</span>}
         
         {messageHistory.length ? messageHistory.map((messagem) => (
-          <div className='message-container' key={messagem._id}>
+          <div className='message-container' key={messagem}>
             <span className='message' key={messagem._id}>
-              {messagem.username}:{messagem.messagem}
+              <span className='message-sender'>{messagem.username}:</span> 
+              <span className='message-text'>{messagem.messagem}</span>
             </span>
             {messagem.username === userChat.username && <button className='delete-message' onClick={() => props.socket.emit('deleteMessage', messagem._id)}>X</button> }
             
@@ -77,9 +80,9 @@ const SocketChat = (props) => {
       
       </div>
 
-      {userChat && userChat.username === 'Visitante' && <div>
+      {/* {userChat && userChat.username === 'Visitante' && <div>
             <input type='text' placeholder={'Insira seu nome'} className='input-username'  onBlur={(e) => e.target.value && setUserChat(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && setUserChat(e.target.value)} />
-      </div>}
+      </div>} */}
       
       {userChat && userChat.username !== 'Visitante' && <div className='send-message-container'>
       <input type="text" className='input-message' placeholder="Mensagem" onChange={(e) => setMessagem(e.target.value)} value={messagem} onKeyDown={(e) => e.key === 'Enter' && messagem && props.socket.emit('messagem', {username: userChat.username, messagem}) && setMessagem('')}/>

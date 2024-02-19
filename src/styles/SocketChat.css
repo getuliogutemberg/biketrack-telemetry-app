@@ -68,3 +68,30 @@
     width: 100%;
     height: 100%;
   }
+
+  .message{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  
+    color: #000;
+    font-weight: light;
+    margin: 5px;
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  .message-text{
+    font-size: 18px;
+    /* font-weight: bold; */
+    margin: 0 10px;
+  }
+
+  .message-sender{
+    font-size: 18px;
+    font-weight: bold;
+    
+  }
