@@ -4,7 +4,9 @@ import '../styles/Lobby.css'
 import axios from 'axios';
 import SocketChat from './SocketChat';
 import SocketLobby from './SocketLobby';
+import socketIOClient from 'socket.io-client';
 
+const socket = socketIOClient('http://localhost:5005');
 const Lobby = () => {
   
   const [showSocketChat, setShowSocketChat] = useState(false);
@@ -72,8 +74,8 @@ useEffect(() => {
       <div className='lobby-body'>
       <div className='lobby-socket'>
        
-      <SocketLobby showSocketLobby={showSocketLobby} setShowSocketLobby={() => setShowSocketLobby(false)}/>
-      <SocketChat showSocketChat={showSocketChat} setBadgeNumber={setBadgeNumber} setShowSocketChat={() => setShowSocketChat(false)}/>
+      <SocketLobby socket={socket} showSocketLobby={showSocketLobby} setShowSocketLobby={() => setShowSocketLobby(false)}/>
+      <SocketChat socket={socket} showSocketChat={showSocketChat} setBadgeNumber={setBadgeNumber} setShowSocketChat={() => setShowSocketChat(false)}/>
     </div>
         {error && <div className="error-message">{error}</div>}
        <img

@@ -1,9 +1,9 @@
 import React , { useEffect, useState } from 'react'
 import '../styles/SocketLobby.css'
-import socketIOClient from 'socket.io-client';
 
 
-const socket = socketIOClient('http://localhost:5005')
+
+
 
 const SocketLobby = (props) => {
 
@@ -21,14 +21,14 @@ const SocketLobby = (props) => {
     
     
     useEffect(() => {
-        socket.on('positions', (data) => {
+      props.socket.on('positions', (data) => {
           // data.filter((position) => position.username === userLobby).lenght === 0 && setUserLobby('')
           setPositions(data);
           console.log(data)
-
+          
         });
 
-        socket.on('tabuleiro', (data) => {
+        props.socket.on('tabuleiro', (data) => {
           // data.filter((position) => position.username === userLobby).lenght === 0 && setUserLobby('')
           setTabuleiro(data);
           console.log(data)
@@ -40,7 +40,7 @@ const SocketLobby = (props) => {
 
     
         return () => {
-          userLobby !== '' && socket.emit('removeUser', {username: userLobby})
+          userLobby !== '' && props.socket.emit('removeUser', {username: userLobby})
           
         };
       }, []);
@@ -66,7 +66,7 @@ const SocketLobby = (props) => {
       }, [position]);
 
       useEffect(() => {
-        console.log(place)
+        
         if (place === 1 ) {
           setSpinner(false)
         }
@@ -78,7 +78,7 @@ const SocketLobby = (props) => {
 
     useEffect(() => {
         
-        userLobby !== '' && socket.emit('enterLobby', {username: userLobby});
+        userLobby !== '' && props.socket.emit('enterLobby', {username: userLobby});
           // return () => userLobby && socket.emit('removeUser', {username: userLobby});
 
           // Keyboard event handler
@@ -89,7 +89,7 @@ const SocketLobby = (props) => {
     
           switch (key) {
             case 'r':
-              userLobby !== '' && socket.emit('resetUser', { username: userLobby });
+              userLobby !== '' && props.socket.emit('resetUser', { username: userLobby });
               return;
             case 'ArrowUp':
               y = y - 50;
@@ -108,7 +108,7 @@ const SocketLobby = (props) => {
           }
     
           // Emit user's movement
-          socket.emit('moveUser', { username: userLobby, x,y});
+          props.socket.emit('moveUser', { username: userLobby, x,y});
         //   setUserPosition({ x, y });
         };
     
@@ -138,7 +138,7 @@ const SocketLobby = (props) => {
               color: 'gray',
             }}
             onClick={() => {
-              socket.emit('moveClickUser', { username: userLobby, x: item.x, y: item.y });
+              props.socket.emit('moveClickUser', { username: userLobby, x: item.x, y: item.y });
             }}
           >
             <span>{item.x},{item.y}</span>
@@ -163,7 +163,7 @@ const SocketLobby = (props) => {
             
             onClick={() => {
               if (position.username === userLobby) {
-                socket.emit('removeUser', { username: userLobby })
+                props.socket.emit('removeUser', { username: userLobby })
                 setUserLobby('')
               } 
             }}

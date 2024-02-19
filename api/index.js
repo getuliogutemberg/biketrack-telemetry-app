@@ -25,7 +25,7 @@ mongoose.connect('mongodb://localhost:27017/biketrack-telemetry');
 mongoose.connection.on('error', (error) => console.error('MongoDB connection error:', error));
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
-const tabuleiro = [
+const lobby = [
   { "x": 0, "y": 0 },
   { "x": 1, "y": 0 },
   { "x": 2, "y": 0 },
@@ -119,6 +119,8 @@ const eventSchema = new mongoose.Schema({
 const messageSchema = new mongoose.Schema({
   username: String,
   messagem: String,
+  date: Date,
+  socketId: String
 });
 
 const positionSchema = new mongoose.Schema({
@@ -354,14 +356,15 @@ app.post('/updateCoordinates', (req, res) => {
 
 io.on('connection', async (socket) => {
   
-  console.log('Novo cliente conectado' + socket.id);
-  io.emit('historicChat', await Message.find());
+  console.log('Novo cliente conectado: ' + socket.id);
+  socket.emit('historicChat', await Message.find());
   io.emit('positions', await Position.find());
-  io.emit('tabuleiro', tabuleiro);
+  socket.emit('tabuleiro', lobby);
 
   const isInLobby = await Position.findOne({ socketId: socket.id });
+  
   if (isInLobby) {
-    socket.emit('setSocketUser', { username: isInLobby.username });
+    socket.emit('setSocketUser', isInLobby);
   }
   
 
@@ -377,18 +380,24 @@ io.on('connection', async (socket) => {
 
   socket.on('messagem', (data) => {
     console.log( data.username + ' enviou:', data.messagem,);
-    Message.create({ username: data.username, messagem: data.messagem });
-    io.emit('messagens', { username: data.username, messagem: data.messagem });
+    Message.create({ username: data.username, messagem: data.messagem , date: new Date(), socketId: socket.id });
+    io.emit('messagens', { username: data.username, messagem: data.messagem, date: new Date(), socketId: socket.id });
   });
 
   socket.on('enterLobby', async (data) => {
-    console.log( 'O cliente ' + data.username + ' entrou na sala');
+    // isInLobby && await Position.updateOne({ username: isInLobby.username }, { x: isInLobby.x, y: isInLobby.y, date: new Date() });
+    console.log( 'O cliente ' + data.username + socket.id + ' entrou na sala');
     if (data.username !== '') {
-
+      
       const isInLobby = await Position.findOne({ username: data.username });
+      isInLobby && console.log(isInLobby.socketId, socket.id);
+      if(isInLobby && socket.id === isInLobby.socketId){
+        socket.emit('setSocketUser', { username: isInLobby.username, x: isInLobby.x, y: isInLobby.y, date: isInLobby.date, socketId: socket.id });
+        io.emit('positions', await Position.find());
+      }
       
       !isInLobby && await Position.create({ username: data.username, x: 0, y: 0, date: new Date() , socketId: socket.id });
-      isInLobby && await Position.updateOne({ username: isInLobby.username }, { x: isInLobby.x, y: isInLobby.y, date: new Date() });
+      socket.emit('setSocketUser', { username: data.username, x: 0, y: 0, date: new Date(), socketId: socket.id });
       io.emit('positions', await Position.find());
     } else {
       socket.emit('positions', await Position.find());
@@ -449,6 +458,8 @@ io.on('connection', async (socket) => {
   socket.on('disconnect', async () => {
     // Quando o socket é desconectado, emitimos um evento para remover a posição do usuário do servidor
     console.log('Cliente desconectado:' + socket.id);
+    await Position.deleteOne({ socketId: socket.id });
+    io.emit('positions', await Position.find());
     // const username = await Position.findOne({ socketId: socket.id }).select('username');
     // if (username) {
     //   socket.emit('removeUser', { username: username });
