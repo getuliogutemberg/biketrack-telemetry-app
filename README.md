@@ -34,14 +34,18 @@ To run this project locally, you'll need to have Node.js, React, and MongoDB ins
 
 ## Screenshots
 
-<!--![Screenshot 1](screenshots/screenshot1.png) -->
-![Screenshot 2](screenshots/screenshot2.png)
-![Screenshot 3](screenshots/screenshot3.png)
-![Screenshot 4](screenshots/screenshot4.png)
-![Screenshot 5](screenshots/screenshot5.png)
-![Screenshot 6](screenshots/screenshot6.png)
-![Screenshot 7](screenshots/screenshot7.png)
-![Screenshot 8](screenshots/screenshot8.png)
+![início](screenshots/screenshot1.png)
+![login no socketserver](screenshots/screenshot2.png)
+![conexao socket](screenshots/screenshot3.png)
+![conexao socket](screenshots/screenshot4.png)
+![autenticação de usuário](screenshots/screenshot5.png)
+![listas de eventos](screenshots/screenshot6.png)
+![criação de eventos](screenshots/screenshot7.png)
+![lista de usuários](screenshots/screenshot8.png)
+![criacao de usuários](screenshots/screenshot9.png)
+![exclusao de eventos](screenshots/screenshot10.png)
+![exclusao de usuários](screenshots/screenshot11.png)
+![detalhes do evento](screenshots/screenshot12.png)
 
 <!-- You can add more screenshots here -->
 
